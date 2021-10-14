@@ -5,20 +5,20 @@
 -After you cloned the project open folder in Visual Studio Code. Open Terminal and use the command below to go into react app 
 
 
-   cd loading-images
+    cd loading-images
    
    
 -Now installing npm dependencies:
 
 
-   npm install
+    npm install
    
 
 -After the installation of all required npm dependency packages, for starting application in the same Terminal type command:
 
 
-  npm start
-  
+    npm start
+    
 
 -It will provide URL: http://localhost:3000/ copy that URL and past it into a new tab in Browser
 
