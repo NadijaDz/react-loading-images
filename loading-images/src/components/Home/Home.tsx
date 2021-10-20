@@ -50,26 +50,34 @@ const Blur=styled.div`
   padding-right:12px;
 `;
 
+interface IImages{
+    author:string;
+    download_url:string;
+    height:string;
+    id: string;
+    url:string;
+    width:string 
+}
 
 function Home() {
-    const [keyForTab, setKeyForTab] = useState("Normal");
-    const [images, setImages] = useState([]);
+    const [keyForTab, setKeyForTab] = useState<any | undefined>("Normal");
+    const [images, setImages] = useState<IImages[]>([]);
     const [countPage, setCountPage]=useState(1);
-    const [blurSliderValue, setBlurSlideValue]=useState(1);
+    const [blurSliderValue, setBlurSlideValue]=useState<number>(0);
 
     //TO DO MOVE THIS TO .env
     const url="https://picsum.photos/v2/list?limit=10";
   
   useEffect(()=>{
      getImages();
-  }, [ keyForTab ]);
+  }, []);
 
   const getImages = () => {
-    axios.get(url+ "&page=" + countPage ).then((res)=>{
-      let newArrayOfImages=res.data;
+    axios.get(url+ "&page=" + countPage ).then((res:any)=>{
+      let newArrayOfImages:IImages[]=res.data;
       //change resolution of images for better and faster loading images
       //because API return images in high quality resolution and for this purpose we don't need that high
-      newArrayOfImages.forEach(element => {
+      newArrayOfImages.forEach((element:IImages) => {
         element.download_url=element.download_url.replace(element.width, "400");
         element.download_url=element.download_url.replace(element.height, "400");
 
@@ -79,11 +87,9 @@ function Home() {
     })
   }
 
-  const onHandleChangeImages = (k) =>{
+  const onHandleChangeImages = (k:any) =>{
     setKeyForTab(k);
-    setImages([]);
-    setCountPage(1);
-    setBlurSlideValue(1);
+    setBlurSlideValue(0);
   }
 
   const fetchMoreData = () => {
@@ -96,7 +102,6 @@ function Home() {
       <Tabs
         id="controlled-tab-example"
         activeKey={keyForTab}
-        onSelect={(k) => setKeyForTab(k)}
         onSelect={(k) => onHandleChangeImages(k)}
         className="mb-3"
       >
@@ -113,10 +118,10 @@ function Home() {
         <Blur className="col-xs-12 col-sm-6 col-md-4 col-lg-3" >
         <Label>Choose blur effect for images</Label>
         <RangeSlider
-            min={1}
+            min={0}
             max={10}
             value={blurSliderValue}
-            onChange={changeEvent => setBlurSlideValue(changeEvent.target.value)}
+            onChange={(changeEvent: React.ChangeEvent<HTMLInputElement>) => setBlurSlideValue(parseInt(changeEvent.target.value))}
             tooltipPlacement='top'
             tooltip='on'    
         />
@@ -143,10 +148,10 @@ function Home() {
         <Blur className="col-xs-12 col-sm-6 col-md-4 col-lg-3" >
         <Label>Choose blur effect for images</Label>
         <RangeSlider
-            min={1}
+            min={0}
             max={10}
             value={blurSliderValue}
-            onChange={changeEvent => setBlurSlideValue(changeEvent.target.value)}
+            onChange={(changeEvent: React.ChangeEvent<HTMLInputElement>) => setBlurSlideValue(parseInt(changeEvent.target.value))}
             tooltipPlacement='top'
             tooltip='on'    
         />
